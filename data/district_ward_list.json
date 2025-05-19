@@ -1,0 +1,323 @@
+[
+
+    {
+    "district": "nam tu liem",
+    "ward": [
+      "dai mo",
+      "me tri",
+      "my dinh 1",
+      "cau dien",
+      "trung van",
+      "my dinh",
+      "unknown",
+      "my dinh 2",
+      "tay mo",
+      "phuong canh",
+      "xuan phuong",
+      "phu do"
+    ]
+  },
+  {
+    "district": "bac tu liem",
+    "ward": [
+      "phu dien",
+      "co nhue 1",
+      "dong ngac",
+      "unknown",
+      "xuan dinh",
+      "co nhue 2",
+      "xuan tao",
+      "co nhue",
+      "tay tuu",
+      "phuc dien",
+      "minh khai",
+      "thuy phuong"
+    ]
+  },
+  {
+    "district": "thanh tri",
+    "ward": [
+      "tu hiep",
+      "tan trieu",
+      "unknown",
+      "lien ninh",
+      "ngu hiep",
+      "duyen ha",
+      "ngoc hoi",
+      "huu hoa"
+    ]
+  },
+  {
+    "district": "cau giay",
+    "ward": [
+      "trung hoa",
+      "yen hoa",
+      "nghia do",
+      "nghia tan",
+      "dich vong",
+      "mai dich",
+      "quan hoa",
+      "unknown"
+    ]
+  },
+    {
+    "district": "hoang mai",
+    "ward": [
+      "hoang liet",
+      "dai kim",
+      "thinh liet",
+      "yen so",
+      "tran phu",
+      "tan mai",
+      "vinh hung",
+      "giap bat",
+      "dinh cong",
+      "unknown",
+      "mai dong",
+      "tuong mai",
+      "hoang van thu",
+      "linh nam",
+      "thanh tri"
+    ]
+  },
+    {
+    "district": "long bien",
+    "ward": [
+      "phuc loi",
+      "sai dong",
+      "bo de",
+      "gia thuy",
+      "viet hung",
+      "giang bien",
+      "ngoc lam",
+      "phuc dong",
+      "long bien",
+      "thuong thanh",
+      "duc giang",
+      "thach ban",
+      "ngoc thuy"
+    ]
+  },
+    {
+    "district": "ha dong",
+    "ward": [
+      "unknown",
+      "nguyen trai",
+      "phuc la",
+      "quang trung",
+      "mo lao",
+      "duong noi",
+      "la khe",
+      "ha cau",
+      "phu la",
+      "yen nghia",
+      "van quan",
+      "kien hung",
+      "phu luong",
+      "van phuc",
+      "yet kieu"
+    ]
+  },
+    {
+    "district": "hoai duc",
+    "ward": [
+      "kim chung",
+      "an khanh",
+      "duc thuong",
+      "unknown",
+      "van canh",
+      "la phu",
+      "dong la"
+    ]
+  },
+    {
+    "district": "thanh xuan",
+    "ward": [
+      "thanh xuan trung",
+      "thanh xuan nam",
+      "thuong dinh",
+      "ha dinh",
+      "nhan chinh",
+      "khuong mai",
+      "unknown",
+      "thanh xuan bac",
+      "khuong dinh",
+      "phuong liet",
+      "khuong trung",
+      "kim giang"
+    ]
+  },
+    {
+    "district": "hai ba trung",
+    "ward": [
+      "minh khai",
+      "vinh tuy",
+      "unknown",
+      "dong tam",
+      "bach mai",
+      "thanh nhan",
+      "quynh mai",
+      "bach dang",
+      "le dai hanh",
+      "pham dinh ho",
+      "dong mac",
+      "thanh luong",
+      "dong nhan",
+      "truong dinh",
+      "quynh loi",
+      "bach khoa",
+      "pho hue",
+      "nguyen du",
+      "cau den"
+    ]
+  },
+    {
+    "district": "gia lam",
+    "ward": [
+      "duong xa",
+      "da ton",
+      "dang xa",
+      "unknown",
+      "trau quy",
+      "co bi",
+      "dong du",
+      "kieu ky"
+    ]
+  },
+    {
+    "district": "thanh oai",
+    "ward": [
+      "unknown",
+      "cu khe"
+    ]
+  },
+  {
+    "district": "tay ho",
+    "ward": [
+      "xuan la",
+      "phu thuong",
+      "unknown",
+      "thuy khue",
+      "buoi",
+      "nhat tan",
+      "quang an"
+    ]
+  },
+  {
+    "district": "ba dinh",
+    "ward": [
+      "kim ma",
+      "cong vi",
+      "vinh phuc",
+      "thanh cong",
+      "doi can",
+      "giang vo",
+      "lieu giai",
+      "ngoc khanh",
+      "ngoc ha",
+      "phuc xa",
+      "unknown",
+      "truc bach",
+      "quan thanh",
+      "nguyen trung truc"
+    ]
+  },
+  {
+    "district": "dong anh",
+    "ward": [
+      "dong hoi",
+      "vinh ngoc",
+      "kim chung",
+      "dong anh",
+      "hai boi"
+    ]
+  },
+  {
+    "district": "thach that",
+    "ward": [
+      "thach hoa",
+      "unknown"
+    ]
+  },
+    {
+    "district": "dan phuong",
+    "ward": [
+      "tan lap"
+    ]
+  },
+
+  {
+    "district": "dong da",
+    "ward": [
+      "quang trung",
+      "o cho dua",
+      "lang thuong",
+      "trung liet",
+      "tho quan",
+      "unknown",
+      "lang ha",
+      "khuong thuong",
+      "phuong mai",
+      "hang bot",
+      "kim lien",
+      "thinh quang",
+      "nga tu so",
+      "trung tu",
+      "van chuong",
+      "kham thien",
+      "nam dong",
+      "cat linh",
+      "phuong lien",
+      "quoc tu giam",
+      "van mieu",
+      "trung phung"
+    ]
+  },
+  {
+    "district": "chuong my",
+    "ward": [
+      "chuc son"
+    ]
+  },
+    {
+    "district": "hoan kiem",
+    "ward": [
+      "cua nam",
+      "hang bai",
+      "phan chu trinh",
+      "tran hung dao",
+      "cua dong",
+      "ly thai to",
+      "hang buom",
+      "dong xuan",
+      "trang tien",
+      "chuong duong",
+      "hang ma",
+      "hang bo"
+    ]
+  },
+    {
+    "district": "quoc oai",
+    "ward": [
+      "sai son"
+    ]
+  },
+  {
+    "district": "me linh",
+    "ward": [
+      "quang minh",
+      "dai thinh",
+      "tien phong"
+    ]
+  },
+
+  {
+    "district": "thuong tin",
+    "ward": [
+      "duyen thai"
+    ]
+  }
+
+
+
+]
