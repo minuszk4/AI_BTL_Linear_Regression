@@ -12,6 +12,8 @@ CORS(app, origins=["http://localhost:3000"])
 with open("./data/district_ward_list.json", "r", encoding="utf-8") as f:
     raw_data = json.load(f)
     # print(raw_data)
+with open("./data/investors.json", "r", encoding="utf-8") as f:
+    investors = json.load(f)
 
 districts = [
     {
@@ -20,7 +22,9 @@ districts = [
     }
     for d in raw_data
 ]
-
+@app.route("/api/investors", methods=["GET"])
+def get_investors():
+    return jsonify(investors)
 @app.route("/api/districts", methods=["GET"])
 def get_districts():
     return jsonify([d["district"] for d in districts])
@@ -35,7 +39,7 @@ def get_wards(district_name):
 
 def one_hot_encode(features, categories, columns, drop_first=True):
     encoded_features = []
-    categorical_columns = ['direction', 'balcony', 'district', 'ward']
+    categorical_columns = ['investor','direction', 'balcony', 'district', 'ward']
     
     feature_names = []
     
@@ -76,11 +80,12 @@ def predict():
         if not data:
             return jsonify({'error': 'No JSON data provided'}), 400
 
-        required_fields = ['squares', 'bedrooms', 'bathrooms', 'direction', 'balcony', 'district', 'ward']
+        required_fields = ['investor','squares', 'bedrooms', 'bathrooms', 'direction', 'balcony', 'district', 'ward']
         if not all(field in data for field in required_fields):
             return jsonify({'error': f'Missing required fields: {required_fields}'}), 400
 
         try:
+            investor = str(data['investor'])
             squares = float(data['squares'])
             bedrooms = int(data['bedrooms'])
             bathrooms = int(data['bathrooms'])
@@ -91,10 +96,10 @@ def predict():
         except (ValueError, TypeError) as e:
             return jsonify({'error': f'Invalid data types: {str(e)}'}), 400
 
-        print(f"Input: squares={squares}, bedrooms={bedrooms}, bathrooms={bathrooms}, "
+        print(f"Input: investor ={investor} squares={squares}, bedrooms={bedrooms}, bathrooms={bathrooms}, "
               f"direction={direction}, balcony={balcony}, district={district}, ward={ward}")
 
-        categorical_columns = ['direction', 'balcony', 'district', 'ward']
+        categorical_columns = ['investor', 'direction', 'balcony', 'district', 'ward']
         categories = {
         'direction': ['Đông-Nam', 'unknown', 'Tây-Bắc', 'Tây-Nam', 'Bắc', 'Đông-Bắc', 'Nam', 'Đông', 'Tây'],
         'balcony': ['Tây-Bắc', 'none', 'Đông-Nam', 'Đông-Bắc', 'Đông', 'Nam', 'Tây', 'Tây-Nam', 'Bắc'],
@@ -132,17 +137,18 @@ def predict():
             'quan thanh', 'quang minh', 'dai thinh', 'tien phong', 'hang bo', 'duyen thai',
             'van mieu', 'nguyen trung truc', 'phu do', 'nguyen du', 'dong la', 'cau den',
             'trung phung'
-        ]
-    }
-
-
+        ],
+        'investor': investors
+        }
+        # print(f"Categories: {categories['investor']}")
         for col in categorical_columns:
             if data[col] not in categories[col]:
+                print(f"Invalid {col}: {data[col]} not in {categories[col]}")
                 return jsonify({'error': f"Invalid {col}: {data[col]} not in {categories[col]}"}, 400)
 
-        feature_columns = ['squares', 'bedrooms', 'bathrooms', 'direction', 'balcony', 'district', 'ward']
-        features = [squares, bedrooms, bathrooms, direction, balcony, district, ward]
-        print(f"Raw features: {features}")
+        feature_columns = ['squares', 'bedrooms', 'bathrooms','investor', 'direction', 'balcony', 'district', 'ward']
+        features = [ squares, bedrooms, bathrooms, investor, direction, balcony, district, ward]
+        # print(f"Raw features: {features}")
         encoded_features = one_hot_encode(features, categories, feature_columns, drop_first=False)
         print(f"Encoded features length: {len(encoded_features)}")
         print(f"Expected features: {len(model.w)}")
@@ -151,7 +157,7 @@ def predict():
             return jsonify({
                 'error': f'Feature count mismatch: got {len(encoded_features)}, expected {len(model.w)}'
             }), 400
-
+        # print(f"Encoded features: {encoded_features}")
         features_standardized = standardize_transform([encoded_features], model.mean, model.std)
         print(f"Standardized features shape: {features_standardized.shape}")
 

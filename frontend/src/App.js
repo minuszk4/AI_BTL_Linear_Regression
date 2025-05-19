@@ -12,6 +12,8 @@ function App() {
   const [balcony, setBalcony] = useState("");
   const [predictedPrice, setPredictedPrice] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [investors, setInvestors] = useState([]);
+  const [selectedInvestor, setSelectedInvestor] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:5000/api/districts")
@@ -42,6 +44,8 @@ function App() {
       balcony,
       district: selectedDistrict,
       ward: selectedWard,
+      investor: selectedInvestor
+
     };
 
     try {
@@ -65,6 +69,12 @@ function App() {
       setLoading(false);
     }
   };
+  useEffect(() => {
+  fetch("http://localhost:5000/api/investors")
+    .then((res) => res.json())
+    .then((data) => setInvestors(data))
+    .catch((err) => console.error(err));
+  }, []);
 
   return (
     <div className="container">
@@ -101,6 +111,21 @@ function App() {
               ))}
             </select>
           </div>
+        </div>
+        <div>
+        <label>Chủ đầu tư:</label>
+          <select
+            value={selectedInvestor}
+            onChange={(e) => setSelectedInvestor(e.target.value)}
+            required
+          >
+            <option value="">-- Chọn chủ đầu tư --</option>
+            {investors.map((inv, index) => (
+              <option key={index} value={inv}>
+                {inv}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="input-fields">
