@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import './App.css';
 function App() {
   const [districts, setDistricts] = useState([]);
@@ -14,7 +14,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [investors, setInvestors] = useState([]);
   const [selectedInvestor, setSelectedInvestor] = useState("");
-
+  const [projects, setProjects] = useState([]); // Danh sách dự án
+  const [selectedProject, setSelectedProject] = useState(""); // Dự án được chọn
   useEffect(() => {
     fetch("http://localhost:5000/api/districts")
       .then((res) => res.json())
@@ -44,8 +45,8 @@ function App() {
       balcony,
       district: selectedDistrict,
       ward: selectedWard,
-      investor: selectedInvestor
-
+      investor: selectedInvestor,
+      project: selectedProject
     };
 
     try {
@@ -75,7 +76,16 @@ function App() {
     .then((data) => setInvestors(data))
     .catch((err) => console.error(err));
   }, []);
-
+  useEffect(() => {
+    if (selectedInvestor) {
+      fetch(`http://localhost:5000/api/projects/${selectedInvestor}`)
+        .then((res) => res.json())
+        .then((data) => setProjects(data))
+        .catch((err) => console.error(err));
+    } else {
+      setProjects([]);
+    }
+  }, [selectedInvestor]);
   return (
     <div className="container">
       <h1>Dự đoán giá bất động sản</h1>
@@ -123,6 +133,21 @@ function App() {
             {investors.map((inv, index) => (
               <option key={index} value={inv}>
                 {inv}
+              </option>
+            ))}
+          </select>
+        </div>
+            <div>
+        <label>Tên dự án:</label>
+          <select
+            value={selectedProject}
+            onChange={(e) => setSelectedProject(e.target.value)}
+            required
+          >
+            <option value="">-- Chọn dự án --</option>
+            {projects.map((proj, index) => (
+              <option key={index} value={proj}>
+                {proj}
               </option>
             ))}
           </select>

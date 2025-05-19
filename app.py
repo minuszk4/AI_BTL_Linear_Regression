@@ -14,7 +14,10 @@ with open("./data/district_ward_list.json", "r", encoding="utf-8") as f:
     # print(raw_data)
 with open("./data/investors.json", "r", encoding="utf-8") as f:
     investors = json.load(f)
-
+with open("./data/projects.json", "r", encoding="utf-8") as f:
+    projects = json.load(f)
+with open("./data/projects_by_investor.json", "r", encoding="utf-8") as f:
+    projects_investors = json.load(f)
 districts = [
     {
         "district": d["district"],
@@ -35,11 +38,15 @@ def get_wards(district_name):
         if d["district"].lower() == district_name.lower():
             return jsonify(d["ward"])
     return jsonify([]), 404
-
-
+@app.route("/api/projects/<investor_name>", methods=["GET"])
+def get_projects(investor_name):
+    for name, projects in projects_investors.items():
+        if name.lower() == investor_name.lower():
+            return jsonify(projects)
+    return jsonify([]), 404
 def one_hot_encode(features, categories, columns, drop_first=True):
     encoded_features = []
-    categorical_columns = ['investor','direction', 'balcony', 'district', 'ward']
+    categorical_columns = ['investor','direction', 'balcony', 'district', 'ward','project']
     
     feature_names = []
     
@@ -80,7 +87,7 @@ def predict():
         if not data:
             return jsonify({'error': 'No JSON data provided'}), 400
 
-        required_fields = ['investor','squares', 'bedrooms', 'bathrooms', 'direction', 'balcony', 'district', 'ward']
+        required_fields = ['investor','squares', 'bedrooms', 'bathrooms', 'direction', 'balcony', 'district', 'ward','project']
         if not all(field in data for field in required_fields):
             return jsonify({'error': f'Missing required fields: {required_fields}'}), 400
 
@@ -93,6 +100,7 @@ def predict():
             balcony = str(data['balcony']).strip()
             district = str(data['district']).strip()
             ward = str(data['ward']).strip()
+            project = str(data['project'])
         except (ValueError, TypeError) as e:
             return jsonify({'error': f'Invalid data types: {str(e)}'}), 400
 
@@ -138,7 +146,8 @@ def predict():
             'van mieu', 'nguyen trung truc', 'phu do', 'nguyen du', 'dong la', 'cau den',
             'trung phung'
         ],
-        'investor': investors
+        'investor': investors,
+        'project': projects
         }
         # print(f"Categories: {categories['investor']}")
         for col in categorical_columns:
@@ -146,8 +155,8 @@ def predict():
                 print(f"Invalid {col}: {data[col]} not in {categories[col]}")
                 return jsonify({'error': f"Invalid {col}: {data[col]} not in {categories[col]}"}, 400)
 
-        feature_columns = ['squares', 'bedrooms', 'bathrooms','investor', 'direction', 'balcony', 'district', 'ward']
-        features = [ squares, bedrooms, bathrooms, investor, direction, balcony, district, ward]
+        feature_columns = ['squares', 'bedrooms', 'bathrooms','investor', 'direction', 'balcony', 'district', 'ward','project']
+        features = [ squares, bedrooms, bathrooms, investor, direction, balcony, district, ward, project]
         # print(f"Raw features: {features}")
         encoded_features = one_hot_encode(features, categories, feature_columns, drop_first=False)
         print(f"Encoded features length: {len(encoded_features)}")
