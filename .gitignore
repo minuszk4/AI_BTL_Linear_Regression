@@ -1,6 +1,0 @@
-backend/myvenv/
-__pycache__/
-*.pyc
-
-frontend/node_modules/
-
