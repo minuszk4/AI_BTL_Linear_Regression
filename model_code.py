@@ -1,20 +1,8 @@
 import pandas as pd
 import numpy as np
-import logging
 import joblib
 import json
 import matplotlib.pyplot as plt
-
-def plot_loss(self):
-    plt.figure(figsize=(10, 6))
-    plt.plot(range(self.no_of_itr), self.loss_history, label='MSE')
-    plt.xlabel('Iterations')
-    plt.ylabel('Mean Squared Error')
-    plt.title('Training Loss Over Iterations')
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
 
 
 class Linear_Regression:
@@ -32,17 +20,17 @@ class Linear_Regression:
         self.X = np.array(X)
         self.Y = np.array(Y)
         print(X.shape,Y.shape,self.w.shape)
-        logging.info(f"Starting training with {self.no_of_itr} iterations, learning rate: {self.learning_rate}")
+        print(f"Starting training with {self.no_of_itr} iterations, learning rate: {self.learning_rate}")
         
         for i in range(self.no_of_itr):
             self.update_weights()
             y_pred = self.predict(self.X)
             mse = self.mean_squared_error(self.Y, y_pred)
             self.loss_history.append(mse)
-            logging.info(f"Iteration {i}, Mean Squared Error: {mse}")
+            print(f"Iteration {i}, Mean Squared Error: {mse}")
 
 
-        logging.info("Training completed")
+        print("Training completed")
         return self
 
     def update_weights(self):
@@ -195,7 +183,7 @@ def main():
     X_train, mean, std = standardize_fit_transform(X_train)
     X_test = standardize_transform(X_test, mean, std)
 
-    model = Linear_Regression(learning_rate=0.2, no_of_itr=25)
+    model = Linear_Regression(learning_rate=0.2, no_of_itr=50)
     model.fit(X_train, y_train)
     
     y_pred = model.predict(X_test)
