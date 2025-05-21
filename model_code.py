@@ -3,6 +3,18 @@ import numpy as np
 import logging
 import joblib
 import json
+import matplotlib.pyplot as plt
+
+def plot_loss(self):
+    plt.figure(figsize=(10, 6))
+    plt.plot(range(self.no_of_itr), self.loss_history, label='MSE')
+    plt.xlabel('Iterations')
+    plt.ylabel('Mean Squared Error')
+    plt.title('Training Loss Over Iterations')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
 
 
 class Linear_Regression:
@@ -11,6 +23,7 @@ class Linear_Regression:
         self.no_of_itr = no_of_itr
         self.w = None
         self.b = None
+        self.loss_history = []
 
     def fit(self, X, Y):
         self.m, self.n = X.shape
@@ -20,12 +33,14 @@ class Linear_Regression:
         self.Y = np.array(Y)
         print(X.shape,Y.shape,self.w.shape)
         logging.info(f"Starting training with {self.no_of_itr} iterations, learning rate: {self.learning_rate}")
+        
         for i in range(self.no_of_itr):
             self.update_weights()
-            if i % 100 == 0 or i == self.no_of_itr - 1:
-                y_pred = self.predict(self.X)
-                mse = self.mean_squared_error(self.Y, y_pred)
-                logging.info(f"Iteration {i}, Mean Squared Error: {mse}")
+            y_pred = self.predict(self.X)
+            mse = self.mean_squared_error(self.Y, y_pred)
+            self.loss_history.append(mse)
+            logging.info(f"Iteration {i}, Mean Squared Error: {mse}")
+
 
         logging.info("Training completed")
         return self
@@ -69,7 +84,16 @@ class Linear_Regression:
         self.b = params['b']
         self.mean = params.get('mean', None)
         self.std = params.get('std', None)
-
+    def plot_loss(self):
+        plt.figure(figsize=(10, 6))
+        plt.plot(range(self.no_of_itr), self.loss_history, label='MSE')
+        plt.xlabel('Iterations')
+        plt.ylabel('Mean Squared Error')
+        plt.title('Training Loss Over Iterations')
+        plt.legend()
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
 def standardize_fit_transform(X):
     X = np.array(X)
     mean = np.mean(X, axis=0)
@@ -117,6 +141,21 @@ def load_data(file_path):
     # print(unique_investors)
     with open("projects.json", "w", encoding="utf-8") as f:
         json.dump(unique_projects, f, ensure_ascii=False, indent=2)
+        
+
+    df_investor_project = df[['investor', 'project']].drop_duplicates()
+    projects_by_investor = df_investor_project.groupby('investor')['project'].unique().to_dict()
+
+    for investor, projects in projects_by_investor.items():
+        project_list = projects.tolist()
+        if not any('unknown' in p.lower() for p in project_list):
+            if "unknown" not in project_list:
+                project_list.append("unknown")
+        projects_by_investor[investor] = project_list
+
+    with open("projects_by_investor.json", "w", encoding="utf-8") as f:
+        json.dump(projects_by_investor, f, ensure_ascii=False, indent=2)
+    
     return df
 
 def one_hot_encode(df, columns, drop_first=True):
@@ -143,8 +182,8 @@ def main():
     # print(df)
     df_encoded = df.copy()
     unique_wards = df_encoded['ward'].unique()
-    print(unique_wards)
-    print(df_encoded['direction'].unique().shape)
+    # print(unique_wards)
+    # print(df_encoded['direction'].unique().shape)
     categorical_cols = ['investor','direction', 'balcony', 'district', 'ward','project']
     df_encoded = one_hot_encode(df_encoded, categorical_cols, drop_first=False) 
     print(df_encoded.shape)
@@ -156,7 +195,7 @@ def main():
     X_train, mean, std = standardize_fit_transform(X_train)
     X_test = standardize_transform(X_test, mean, std)
 
-    model = Linear_Regression(learning_rate=0.1, no_of_itr=1000)
+    model = Linear_Regression(learning_rate=0.2, no_of_itr=25)
     model.fit(X_train, y_train)
     
     y_pred = model.predict(X_test)
@@ -171,7 +210,8 @@ def main():
     print(f"final Mean Absolute Error: {mae}")
     print(f"final R-squared: {r2}")
     model.print_weights()
-    
+    model.plot_loss()
+
     
     print("\nSo sánh y_test và y_pred:")
     comparison_df = pd.DataFrame({
@@ -182,3 +222,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
